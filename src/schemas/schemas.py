@@ -46,8 +46,13 @@ class Produto(BaseModel):
 class Pedido(BaseModel):
     id: Optional[int] = None
     quantidade: int
-    entrega: bool = True
-    endereco: str
-    obs: Optional[str] = "Sem Observações"
+    local_entrega: Optional[str] 
+    tipo_entrega: str
+    observacao: Optional[str] = "Sem Observações"
+    
+    usuario_id: Optional[int]
+    produto_id: Optional[int]
 
+    usuario: Optional[UsuarioSimples]
+    produto: Optional[ProdutoSimples]
 
