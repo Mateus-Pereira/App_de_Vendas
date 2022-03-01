@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from sqlalchemy.orm import Session
 from src.schemas.schemas import Produto, Usuario,ProdutoSimples
@@ -10,8 +11,18 @@ from src.infra.sql.repositorios.repositorio_usuario import RepositorioUsuario
 
 app = FastAPI()
 
-#PRODUTOS
+#CORS
+origins = ['http://localhost:8000']
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
+
+#PRODUTOS
 @app.post('/produtos', status_code=status.HTTP_201_CREATED,response_model=Produto)
 def criar_produto(produto: Produto, db: Session = Depends(get_db)):
     produto_criado = RepositorioProduto(db).criar(produto)
