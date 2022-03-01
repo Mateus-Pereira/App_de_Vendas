@@ -13,6 +13,7 @@ class Usuario(Base):
     telefone = Column(String)
 
     produtos = relationship('Produto', back_populates='usuario')
+    pedido = relationship('Pedido', back_populates='produtos')
 
 
 class Produto(Base):
@@ -29,3 +30,18 @@ class Produto(Base):
 
     usuario = relationship('Usuario', back_populates='produtos')
     
+
+class Pedido(Base):
+    __tablename__ = 'Pedidos'
+
+    id = Column(Integer, primary_key = True, index = True)
+    quantdade = Column(Integer)
+    local_entrega = Column(String)
+    tipo_entrega = Column(String)
+    observacao = Column(String)
+
+    usuario_id = Column(Integer, ForeignKey('usuario.id', name='ID_pedido_usuario'))
+    produto_id = Column(Integer, ForeignKey('produto.id', name='ID_pedido_produto'))
+
+    usuario = relationship('Usuario', back_populates='pedidos')
+    produto = relationship('Produto')
